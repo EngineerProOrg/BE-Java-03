@@ -1,0 +1,28 @@
+package com.engineerpro.example.redis.config;
+
+import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.QueueBuilder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import com.engineerpro.example.redis.event.EventConsumer;
+
+@Configuration
+public class MessageQueueConfig {
+  public static final String topicExchangeName = "spring-boot-exchange";
+  public static final String queueAfterCreatePost = "after-create-post-queue";
+  public static final String QUEUE_LIKE_POST = "like-post-queue";
+  public static final String QUEUE_LIKE_POST_DLQ = "like-post-queue-dlq";
+  public static final String queueCommentPost = "comment-post-queue";
+
+  @Bean
+  Queue queueLikePost() {
+    return QueueBuilder.durable(QUEUE_LIKE_POST).build();
+
+  }
+
+  @Bean
+  EventConsumer initConsumer() {
+    return new EventConsumer();
+  }
+}
